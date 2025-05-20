@@ -93,16 +93,23 @@
   }
   
   .button-primary {
-    @apply px-6 py-3 text-teal border border-teal rounded-md hover:bg-teal/10 transition-all duration-300 font-medium relative overflow-hidden group;
+    @apply px-6 py-3 text-teal border border-teal rounded-md hover:bg-teal/10 transition-all duration-300 font-medium relative overflow-hidden;
   }
   
   .button-primary::before {
     content: '';
-    @apply absolute inset-0 bg-teal/10 scale-x-0 origin-left transition-transform duration-300;
+    position: absolute;
+    inset: 0;
+    background-color: rgb(100 255 218 / 0.1);
+    transform: scale-x-0;
+    transform-origin: left;
+    transition-property: transform;
+    transition-duration: 300ms;
   }
   
+  .group:hover .button-primary::before,
   .button-primary:hover::before {
-    @apply scale-x-100;
+    transform: scale-x-100;
   }
   
   .button-secondary {
@@ -164,16 +171,19 @@
   
   .animated-border::after {
     content: '';
-    @apply absolute inset-0 rounded-md border border-teal/30;
+    position: absolute;
+    inset: 0;
+    border-radius: 0.375rem;
+    border: 1px solid rgb(100 255 218 / 0.3);
     animation: border-glow 2s ease-in-out infinite;
   }
   
   @keyframes border-glow {
     0%, 100% {
-      @apply border-opacity-30;
+      border-opacity: 0.3;
     }
     50% {
-      @apply border-opacity-60;
+      border-opacity: 0.6;
     }
   }
   
