@@ -22,7 +22,7 @@ const Projects = () => {
   ];
   
   return (
-    <section id="projects" className="bg-navy-dark">
+    <section id="projects" className="py-24 px-6 md:px-12 lg:px-24 bg-gradient-to-b from-navy-dark to-navy">
       <div className="container mx-auto">
         <h2 className="section-heading">Projects</h2>
         
