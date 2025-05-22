@@ -16,10 +16,6 @@ const Index = () => {
       <Navbar />
       
       <Element name="home" className="relative z-10">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-teal/5 rounded-full filter blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[35%] h-[35%] bg-teal/5 rounded-full filter blur-[100px]" />
-        </div>
         <Hero />
       </Element>
       
