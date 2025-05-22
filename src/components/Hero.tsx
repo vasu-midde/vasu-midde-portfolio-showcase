@@ -82,23 +82,38 @@ const Hero = () => {
           this.x, this.y, this.size * 2
         );
         
-        // Adjust color based on brightness
-        const baseColor = this.color.replace(')', `, ${this.brightness})`);
+        // Get base color components from this.color
+        let baseColor = this.color;
         
-        gradient.addColorStop(0, baseColor);
-        gradient.addColorStop(0.5, baseColor.replace(',', ',').replace(')', ', 0.5)'));
-        gradient.addColorStop(1, baseColor.replace(',', ',').replace(')', ', 0)'));
+        // Parse the base color to get its components
+        const colorMatch = baseColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
         
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Bright center
-        ctx.fillStyle = 'rgba(255, 255, 220, ' + this.brightness + ')';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
-        ctx.fill();
+        if (colorMatch) {
+          const r = parseInt(colorMatch[1], 10);
+          const g = parseInt(colorMatch[2], 10);
+          const b = parseInt(colorMatch[3], 10);
+          
+          // Create new color strings with correct brightness values
+          const fullColor = `rgba(${r}, ${g}, ${b}, ${this.brightness})`;
+          const midColor = `rgba(${r}, ${g}, ${b}, ${this.brightness * 0.5})`;
+          const transparentColor = `rgba(${r}, ${g}, ${b}, 0)`;
+          
+          // Apply gradient stops with proper color formatting
+          gradient.addColorStop(0, fullColor);
+          gradient.addColorStop(0.5, midColor);
+          gradient.addColorStop(1, transparentColor);
+          
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Bright center
+          ctx.fillStyle = `rgba(255, 255, 220, ${this.brightness})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     }
     
