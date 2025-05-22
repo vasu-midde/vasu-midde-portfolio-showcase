@@ -17,8 +17,16 @@ const Hero = () => {
     
     // Particles setup
     const particlesArray: Particle[] = [];
-    const numberOfParticles = 120;
-    const colors = ['rgba(100, 255, 218, 0.8)', 'rgba(100, 255, 218, 0.5)', 'rgba(100, 255, 218, 0.3)', 'rgba(204, 214, 246, 0.3)'];
+    const numberOfParticles = 150;
+    
+    // Gold-like colors for firefly effect
+    const colors = [
+      'rgba(255, 223, 0, 0.8)',    // Rich gold
+      'rgba(255, 215, 0, 0.7)',    // Gold
+      'rgba(218, 165, 32, 0.6)',   // Goldenrod
+      'rgba(255, 223, 0, 0.4)',    // Soft gold
+      'rgba(250, 250, 210, 0.3)'   // Light gold
+    ];
     
     class Particle {
       x: number;
@@ -27,20 +35,38 @@ const Hero = () => {
       speedX: number;
       speedY: number;
       color: string;
+      brightness: number;
+      blinkSpeed: number;
       
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
+        this.speedX = (Math.random() - 0.5) * 0.7;
+        this.speedY = (Math.random() - 0.5) * 0.7;
         this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.brightness = 0.5; // Start at half brightness
+        this.blinkSpeed = Math.random() * 0.03 + 0.005; // Random blink speed
       }
       
       update() {
+        // Update position with gentle movement
         this.x += this.speedX;
         this.y += this.speedY;
         
+        // Simulate firefly floating motion by slightly changing direction
+        if (Math.random() > 0.99) {
+          this.speedX = (Math.random() - 0.5) * 0.7;
+          this.speedY = (Math.random() - 0.5) * 0.7;
+        }
+        
+        // Simulate firefly blinking by changing brightness
+        this.brightness += this.blinkSpeed;
+        if (this.brightness >= 1 || this.brightness <= 0.3) {
+          this.blinkSpeed *= -1; // Reverse direction when min/max reached
+        }
+        
+        // Wrap around screen edges
         if (this.x > width) this.x = 0;
         else if (this.x < 0) this.x = width;
         if (this.y > height) this.y = 0;
@@ -49,9 +75,29 @@ const Hero = () => {
       
       draw() {
         if (!ctx) return;
-        ctx.fillStyle = this.color;
+        
+        // Create glowing effect for fireflies
+        const gradient = ctx.createRadialGradient(
+          this.x, this.y, 0, 
+          this.x, this.y, this.size * 2
+        );
+        
+        // Adjust color based on brightness
+        const baseColor = this.color.replace(')', `, ${this.brightness})`);
+        
+        gradient.addColorStop(0, baseColor);
+        gradient.addColorStop(0.5, baseColor.replace(',', ',').replace(')', ', 0.5)'));
+        gradient.addColorStop(1, baseColor.replace(',', ',').replace(')', ', 0)'));
+        
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Bright center
+        ctx.fillStyle = 'rgba(255, 255, 220, ' + this.brightness + ')';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -64,38 +110,16 @@ const Hero = () => {
     
     function animate() {
       if (!ctx) return;
-      ctx.clearRect(0, 0, width, height);
+      // Semi-transparent clear for trail effect
+      ctx.fillStyle = 'rgba(10, 25, 47, 0.1)';
+      ctx.fillRect(0, 0, width, height);
       
       for (let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
         particlesArray[i].draw();
       }
       
-      // Connect nearby particles with lines
-      connectParticles();
-      
       requestAnimationFrame(animate);
-    }
-    
-    function connectParticles() {
-      if (!ctx) return;
-      
-      for (let i = 0; i < particlesArray.length; i++) {
-        for (let j = i; j < particlesArray.length; j++) {
-          const dx = particlesArray[i].x - particlesArray[j].x;
-          const dy = particlesArray[i].y - particlesArray[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(100, 255, 218, ${0.1 - (distance/1000)})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-            ctx.stroke();
-          }
-        }
-      }
     }
     
     window.addEventListener('resize', () => {
@@ -138,14 +162,14 @@ const Hero = () => {
             >
               <span className="relative z-10">View My Work</span>
             </Link>
-            <Link
-              to="contact"
-              smooth={true}
-              duration={800}
+            <a
+              href="https://drive.google.com/file/d/1vhPyzdw2RGpU-5zpiUprnQBvUaR3Bo7q/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer" 
               className="button-secondary cursor-pointer"
             >
-              Get In Touch
-            </Link>
+              View Resume
+            </a>
           </div>
         </div>
       </div>

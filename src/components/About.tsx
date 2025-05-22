@@ -37,16 +37,12 @@ const About = () => {
           
           <div className="md:w-1/3 flex justify-center">
             <div className="relative group">
-              <div className="w-64 h-64 overflow-hidden rounded-md bg-slate-dark/30">
-                <div className="w-full h-full flex items-center justify-center text-slate">
-                  {/* Replace with actual image when available */}
-                  <div className="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto mb-2 text-slate" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    <p className="text-sm">Profile Photo</p>
-                  </div>
-                </div>
+              <div className="w-64 h-64 overflow-hidden rounded-md">
+                <img 
+                  src="/lovable-uploads/3003a73c-f5a8-4fe8-83de-7ee1edd2ee05.png" 
+                  alt="Vasu Midde with medal" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               
               {/* Border Frame Animation */}
