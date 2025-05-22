@@ -17,10 +17,14 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'About', to: 'about' },
+    { name: 'Experience', to: 'experience' },
     { name: 'Skills', to: 'skills' },
+    { name: 'Certifications', to: 'certifications' },
     { name: 'Projects', to: 'projects' },
     { name: 'Contact', to: 'contact' }
   ];
+
+  const resumeUrl = "https://drive.google.com/file/d/1vhPyzdw2RGpU-5zpiUprnQBvUaR3Bo7q/view?usp=sharing";
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-navy-dark bg-opacity-95 shadow-md py-3' : 'py-5 bg-transparent'}`}>
@@ -45,7 +49,9 @@ const Navbar = () => {
             </Link>
           ))}
           <a 
-            href="#resume" 
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="button-primary ml-4"
           >
             Resume
@@ -85,7 +91,9 @@ const Navbar = () => {
             </Link>
           ))}
           <a 
-            href="#resume" 
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="button-primary w-[calc(100%-2rem)] text-center mt-2"
           >
             Resume

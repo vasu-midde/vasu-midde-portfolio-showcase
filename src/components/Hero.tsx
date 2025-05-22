@@ -12,141 +12,97 @@ const Hero = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    // Set canvas dimensions
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     
-    // Particles setup
-    const particlesArray: Particle[] = [];
-    const numberOfParticles = 150;
+    // Characters for matrix effect (can include letters, numbers, special chars)
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%"\'#&_(),.;:?!\\|{}<>[]^~';
     
-    // Gold-like colors for firefly effect
-    const colors = [
-      'rgba(255, 223, 0, 0.8)',    // Rich gold
-      'rgba(255, 215, 0, 0.7)',    // Gold
-      'rgba(218, 165, 32, 0.6)',   // Goldenrod
-      'rgba(255, 223, 0, 0.4)',    // Soft gold
-      'rgba(250, 250, 210, 0.3)'   // Light gold
-    ];
+    // Set up columns and drops
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops: number[] = [];
     
-    class Particle {
-      x: number;
-      y: number;
-      size: number;
-      speedX: number;
-      speedY: number;
-      color: string;
-      brightness: number;
-      blinkSpeed: number;
-      
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.7;
-        this.speedY = (Math.random() - 0.5) * 0.7;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.brightness = 0.5; // Start at half brightness
-        this.blinkSpeed = Math.random() * 0.03 + 0.005; // Random blink speed
-      }
-      
-      update() {
-        // Update position with gentle movement
-        this.x += this.speedX;
-        this.y += this.speedY;
-        
-        // Simulate firefly floating motion by slightly changing direction
-        if (Math.random() > 0.99) {
-          this.speedX = (Math.random() - 0.5) * 0.7;
-          this.speedY = (Math.random() - 0.5) * 0.7;
-        }
-        
-        // Simulate firefly blinking by changing brightness
-        this.brightness += this.blinkSpeed;
-        if (this.brightness >= 1 || this.brightness <= 0.3) {
-          this.blinkSpeed *= -1; // Reverse direction when min/max reached
-        }
-        
-        // Wrap around screen edges
-        if (this.x > width) this.x = 0;
-        else if (this.x < 0) this.x = width;
-        if (this.y > height) this.y = 0;
-        else if (this.y < 0) this.y = height;
-      }
-      
-      draw() {
-        if (!ctx) return;
-        
-        // Create glowing effect for fireflies
-        const gradient = ctx.createRadialGradient(
-          this.x, this.y, 0, 
-          this.x, this.y, this.size * 2
-        );
-        
-        // Get base color components from this.color
-        let baseColor = this.color;
-        
-        // Parse the base color to get its components
-        const colorMatch = baseColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
-        
-        if (colorMatch) {
-          const r = parseInt(colorMatch[1], 10);
-          const g = parseInt(colorMatch[2], 10);
-          const b = parseInt(colorMatch[3], 10);
-          
-          // Create new color strings with correct brightness values
-          const fullColor = `rgba(${r}, ${g}, ${b}, ${this.brightness})`;
-          const midColor = `rgba(${r}, ${g}, ${b}, ${this.brightness * 0.5})`;
-          const transparentColor = `rgba(${r}, ${g}, ${b}, 0)`;
-          
-          // Apply gradient stops with proper color formatting
-          gradient.addColorStop(0, fullColor);
-          gradient.addColorStop(0.5, midColor);
-          gradient.addColorStop(1, transparentColor);
-          
-          ctx.fillStyle = gradient;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
-          ctx.fill();
-          
-          // Bright center
-          ctx.fillStyle = `rgba(255, 255, 220, ${this.brightness})`;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
+    // Initialize each column's starting position
+    for (let i = 0; i < columns; i++) {
+      drops[i] = Math.floor(Math.random() * -canvas.height);
     }
     
-    function init() {
-      for (let i = 0; i < numberOfParticles; i++) {
-        particlesArray.push(new Particle());
-      }
-    }
-    
-    function animate() {
-      if (!ctx) return;
-      // Semi-transparent clear for trail effect
-      ctx.fillStyle = 'rgba(10, 25, 47, 0.1)';
-      ctx.fillRect(0, 0, width, height);
+    // Draw the matrix animation
+    const draw = () => {
+      // Semi-transparent overlay to create fade effect
+      ctx.fillStyle = 'rgba(10, 25, 47, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].update();
-        particlesArray[i].draw();
-      }
+      // Set text color and font
+      ctx.fillStyle = '#64FFDA';
+      ctx.font = `${fontSize}px 'Courier New'`;
+      ctx.textAlign = 'center';
       
-      requestAnimationFrame(animate);
-    }
+      // Draw each character
+      for (let i = 0; i < drops.length; i++) {
+        // Generate a random character
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        
+        // Calculate x position based on column
+        const x = i * fontSize + fontSize / 2;
+        
+        // Calculate y position based on drop
+        const y = drops[i] * fontSize;
+        
+        // Add slight color variation to some characters for effect
+        if (Math.random() > 0.98) {
+          ctx.fillStyle = '#FFFFFF';
+        } else if (Math.random() > 0.9) {
+          ctx.fillStyle = '#A8FFF1';
+        } else {
+          ctx.fillStyle = '#64FFDA';
+        }
+        
+        // Draw the character
+        ctx.fillText(text, x, y);
+        
+        // Move the drop down
+        drops[i]++;
+        
+        // Reset drop when it reaches bottom or randomly
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        // Randomly reset some drops
+        if (Math.random() > 0.995) {
+          drops[i] = 0;
+        }
+      }
+    };
     
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
+    // Set up animation loop
+    const interval = setInterval(draw, 33); // ~30fps
     
-    init();
-    animate();
+    // Handle window resize
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      // Reset columns and drops on resize
+      const newColumns = Math.floor(canvas.width / fontSize);
+      
+      // Resize drops array
+      for (let i = 0; i < newColumns; i++) {
+        if (!drops[i]) {
+          drops[i] = Math.floor(Math.random() * -canvas.height);
+        }
+      }
+    };
     
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up on component unmount
     return () => {
-      window.removeEventListener('resize', () => {});
+      clearInterval(interval);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
   

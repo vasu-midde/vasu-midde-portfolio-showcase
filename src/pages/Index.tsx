@@ -4,7 +4,9 @@ import { Element } from 'react-scroll';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
+import Experience from '../components/Experience';
 import Skills from '../components/Skills';
+import Certifications from '../components/Certifications';
 import Projects from '../components/Projects';
 import Contact from '../components/Contact';
 
@@ -25,8 +27,16 @@ const Index = () => {
         <About />
       </Element>
       
+      <Element name="experience">
+        <Experience />
+      </Element>
+      
       <Element name="skills">
         <Skills />
+      </Element>
+      
+      <Element name="certifications">
+        <Certifications />
       </Element>
       
       <Element name="projects">
