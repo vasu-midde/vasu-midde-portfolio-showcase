@@ -11,15 +11,19 @@ const About = () => {
             
             <div className="space-y-4 text-slate leading-relaxed">
               <p>
-                I'm Vasu Midde, a passionate Computer Science and Engineering graduate from the 
-                Class of 2025 with a deep-rooted interest in building innovative digital solutions 
-                that solve real-world problems.
+                I'm Vasu Midde, an M.Sc. Artificial Intelligence student at BTU Cottbus-Senftenberg
+                in Germany, with a B.Tech in Computer Engineering from IIIT Kottayam (2021–2025).
               </p>
-              
+
               <p>
-                My academic journey has equipped me with a strong foundation in computer science fundamentals, 
-                while my project work has given me practical experience in areas ranging from machine learning and 
-                full-stack development to database management and UI design.
+                As a Research Intern at BTU, I'm building a pipeline that detects, counts and classifies
+                insects in high-resolution light-trap images. Alongside that, I'm working on retrieval-augmented
+                generation (RAG) with a proper evaluation framework. I care about measuring whether a model
+                actually works, not just training it.
+              </p>
+
+              <p>
+                I'm looking for a Werkstudent position or internship (Pflichtpraktikum) in AI / ML engineering.
               </p>
               
               <p>
@@ -39,7 +43,7 @@ const About = () => {
             <div className="relative group">
               <div className="w-64 h-64 overflow-hidden rounded-md">
                 <img 
-                  src="/lovable-uploads/3003a73c-f5a8-4fe8-83de-7ee1edd2ee05.png" 
+                  src="lovable-uploads/3003a73c-f5a8-4fe8-83de-7ee1edd2ee05.png" 
                   alt="Vasu Midde with medal" 
                   className="w-full h-full object-cover"
                 />

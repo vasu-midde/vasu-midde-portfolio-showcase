@@ -9,6 +9,14 @@ interface SkillCategory {
 const Skills = () => {
   const skillCategories: SkillCategory[] = [
     {
+      name: "Machine Learning & AI",
+      skills: ["PyTorch", "TensorFlow", "Scikit-learn", "Faster R-CNN", "CNNs", "Computer Vision", "NLP", "LLMs", "RAG", "Prompt Engineering", "Explainable AI"]
+    },
+    {
+      name: "Data & Tools",
+      skills: ["Pandas", "NumPy", "SQL", "Matplotlib", "CVAT", "Google Colab", "Jupyter"]
+    },
+    {
       name: "Programming Languages",
       skills: ["Python", "C++", "JavaScript", "TypeScript", "C"]
     },
@@ -23,10 +31,6 @@ const Skills = () => {
     {
       name: "Databases",
       skills: ["PostgreSQL", "MongoDB", "Firebase", "Supabase"]
-    },
-    {
-      name: "Machine Learning",
-      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "NumPy", "Data Visualization", "Computer Vision", "NLP"]
     },
     {
       name: "Developer Tools",

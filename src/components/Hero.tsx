@@ -120,12 +120,13 @@ const Hero = () => {
             Vasu Midde.
           </h1>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate mb-6">
-            Innovative Software Engineer
+            AI / ML Engineer
           </h2>
           <p className="text-slate text-lg md:text-xl max-w-xl mb-8">
-            I'm a Computer Science and Engineering graduate with expertise in 
-            full-stack development, machine learning, and cloud technologies. 
-            Passionate about creating efficient, scalable, and impactful solutions.
+            M.Sc. Artificial Intelligence student at BTU Cottbus-Senftenberg and
+            Research Intern in Computer Vision. I build ML systems end to end, from
+            data and annotation through training to evaluation, with a focus on
+            object detection, LLMs and RAG.
           </p>
           
           <div className="flex flex-wrap gap-4">
