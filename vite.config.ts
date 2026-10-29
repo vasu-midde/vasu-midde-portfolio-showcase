@@ -5,7 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/vasu-midde-portfolio-showcase/",
+  // GitHub Pages serves the site under /vasu-midde-portfolio-showcase/; Vercel serves it at the root.
+  base: process.env.GH_PAGES ? "/vasu-midde-portfolio-showcase/" : "/",
   server: {
     host: "::",
     port: 8080,
